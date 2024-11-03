@@ -5,6 +5,9 @@ public class Task {
 	
 	//建構子，初始化任務的屬性
 	public Task(String name, String description) {
+		if(name == null || name.trim().isEmpty()) {
+			throw new IllegalArgumentException("任務名稱不能為空，請提出有效任務名稱");
+		}
 		this.taskName = name;
 		this.taskDescription = description;
 		this.isCompleted = false;
