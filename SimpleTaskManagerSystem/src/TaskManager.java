@@ -1,20 +1,17 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class TaskManager {
 	private final List<Task> tasks = new ArrayList<>();
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	//新增任務
 	public String addTask(String name, String description){
 		try {
 			Task task = new Task(name, description);
 			tasks.add(task);
-			String time = LocalDateTime.now().format(formatter);
-			return String.format("成功添加任務：\n%s\n任務添加時間：%s", task, time);
+			task.getTime();
+			return String.format("成功添加任務：\n%s", task);
 		}
 		catch(IllegalArgumentException e){
 			return String.format("添加任務失敗：\n%s", e.getMessage());
@@ -43,11 +40,14 @@ public class TaskManager {
 			return "目前沒有任務";
 		}
 		else{
+			Task task = findTaskByName(name);
+			if(task == null) {
+				return String.format("未找到任務%s", name);
+			}
 			for(Iterator<Task> iterator = tasks.iterator(); iterator.hasNext();) {
-				Task task = iterator.next();
-				if(task.getTaskName().equals(name)) {
+				if(iterator.next().getTaskName().equals(name)) {
 					iterator.remove();
-					return String.format("已刪除任務%s", name);
+					return String.format("已刪除任務%s\n尚餘%d個任務未完成！", name, tasks.size());
 				}
 			}
 			return String.format("未找到任務%s", name);
@@ -55,7 +55,7 @@ public class TaskManager {
 	}
 	
 	//標記任務已完成
-	public String isCompleted(String name) {
+	public String markTaskAsCompleted(String name) {
 		Task task = findTaskByName(name);
 		if(task == null) {
 			return String.format("未找到任務%s", name);

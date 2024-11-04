@@ -7,7 +7,7 @@ public class Main {
 		boolean running = true;
 		String delimiter = "**********";
 		
-		while(running) {
+		do{
 			System.out.println(delimiter + "\n請選擇您的操作：");
 			System.out.println("1. 新增任務");
 			System.out.println("2. 顯示所有任務");
@@ -40,7 +40,7 @@ public class Main {
 				case 4:
 					System.out.print("請輸入已完成的任務名稱：");
 					name = scanner.nextLine();
-					System.out.println(taskManager.isCompleted(name));
+					System.out.println(taskManager.markTaskAsCompleted(name));
 					break;
 				case 5:
 					System.out.print("請輸入欲修改描述的任務名稱：");
@@ -56,7 +56,7 @@ public class Main {
 				default:
 					System.out.println("無效選項，請輸入有效選項");
 			}
-		}
+		}while(running);
 		scanner.close();
 	}
 }
