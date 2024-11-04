@@ -61,7 +61,7 @@ public class TaskManager {
 			return String.format("未找到任務%s", name);
 		}
 		task.complete();
-		return String.format("任務%s已完成！", task);	
+		return String.format("任務%s已完成！", name);	
 	}
 	
 	//修改任務描述
@@ -71,7 +71,7 @@ public class TaskManager {
 			return "未尋到該任務";
 		}
 		task.setTaskDescription(description);
-		return String.format("已修改任務描述為：%s\n", task);
+		return String.format("已修改任務描述為：%s\n", description);
 	}
 	
 	//一致性驗證
