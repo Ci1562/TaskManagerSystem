@@ -28,13 +28,10 @@ public class TaskManager {
 		}
 		else {
 			StringBuilder taskList = new StringBuilder("顯示所有任務：\n");
-			int index = 0;
+			int index = 1;
 			for(Task task : tasks) {
 				taskList.append(index++).append(". ").append(task);
-				if(task.isCompleted()) {
-					taskList.append("任務已完成");
-				}
-				taskList.append("\n");
+				taskList.append("\n\n");
 			}
 			return taskList.toString();
 		}
@@ -64,7 +61,7 @@ public class TaskManager {
 			return String.format("未找到任務%s", name);
 		}
 		task.complete();
-		return String.format("任務%s已完成：", task);	
+		return String.format("任務%s已完成！", task);	
 	}
 	
 	//修改任務描述

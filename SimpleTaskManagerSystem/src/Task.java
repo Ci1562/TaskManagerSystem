@@ -42,6 +42,6 @@ public class Task {
 	//改寫toString並格式化
 	@Override
 	public String toString() {
-		return String.format("任務名稱：%s\n任務具體描述：%s\n是否已完成：%b", taskName, taskDescription, isCompleted?"已完成":"未完成");
+		return String.format("任務名稱：%s\n任務具體描述：%s\n是否已完成：%s", taskName, taskDescription, isCompleted?"已完成":"未完成");
 	}
 }

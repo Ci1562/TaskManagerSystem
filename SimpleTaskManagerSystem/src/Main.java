@@ -5,6 +5,7 @@ public class Main {
 		TaskManager taskManager = new TaskManager();
 		Scanner scanner = new Scanner(System.in);
 		boolean running = true;
+		String delimiter = "**********";
 		
 		while(running) {
 			System.out.println("\n請選擇您的操作：");
@@ -18,6 +19,7 @@ public class Main {
 			
 			int choice = scanner.nextInt();
 			scanner.nextLine();
+			System.out.println(delimiter);
 			
 			switch(choice) {
 				case 1:
@@ -26,19 +28,23 @@ public class Main {
 					System.out.print("請輸入任務描述：");
 					String description = scanner.nextLine();
 					System.out.println(taskManager.addTask(name, description));
+					System.out.println(delimiter);
 					break;
 				case 2:
 					System.out.println(taskManager.displayTasks());
+					System.out.println(delimiter);
 					break;
 				case 3:
 					System.out.print("請輸入欲刪除的任務名稱：");
 					name = scanner.nextLine();
 					System.out.println(taskManager.deleteTask(name));
+					System.out.println(delimiter);
 					break;
 				case 4:
 					System.out.print("請輸入已完成的任務名稱：");
 					name = scanner.nextLine();
 					System.out.println(taskManager.isCompleted(name));
+					System.out.println(delimiter);
 					break;
 				case 5:
 					System.out.print("請輸入欲修改描述的任務名稱：");
@@ -46,6 +52,7 @@ public class Main {
 					System.out.print("請輸入欲修改的任務描述：");
 					description = scanner.nextLine();
 					System.out.println(taskManager.editTaskDescription(name, description));
+					System.out.println(delimiter);
 					break;
 				case 0:
 					running = false;
