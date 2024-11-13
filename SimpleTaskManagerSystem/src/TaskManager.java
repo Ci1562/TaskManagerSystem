@@ -36,21 +36,16 @@ public class TaskManager {
 	
 	//刪除任務
 	public String deleteTask(String name){
+		Task task = findTaskByName(name);
 		if(tasks.isEmpty()) {
 			return "目前沒有任務";
 		}
-		else{
-			Task task = findTaskByName(name);
-			if(task == null) {
-				return String.format("未找到任務%s", name);
-			}
-			for(Iterator<Task> iterator = tasks.iterator(); iterator.hasNext();) {
-				if(iterator.next().getTaskName().equals(name)) {
-					iterator.remove();
-					return String.format("已刪除任務%s\n尚餘%d個任務未完成！", name, tasks.size());
-				}
-			}
+		else if(task == null) {
 			return String.format("未找到任務%s", name);
+		}
+		else{
+			tasks.remove(task);
+			return String.format("已刪除任務%s\n尚餘%d個任務未完成！", name, tasks.size());
 		}
 	}
 	
@@ -68,19 +63,38 @@ public class TaskManager {
 	public String editTaskDescription(String name, String description) {
 		Task task = findTaskByName(name);
 		if(task == null) {
-			return "未尋到該任務";
+			return String.format("未找到任務%s", name);
 		}
 		task.setTaskDescription(description);
 		return String.format("已修改任務描述為：%s\n", description);
 	}
 	
+	//更新任務名稱
+	public String editTaskName(String name, String updateName) {
+		Task task = findTaskByName(name);
+		if(task == null) {
+			return String.format("未找到任務%s", name);
+		}
+		nullName(updateName);
+		task.setTaskName(updateName);
+		return String.format("已修改任務名稱為：%s\n", updateName);
+	}
+	
 	//一致性驗證
 	private Task findTaskByName(String name) {
+		nullName(name);
 		for(Task task : tasks) {
 			if(task.getTaskName().equals(name)) {
 				return task;
 			}
 		}
 		return null;
+	}
+	
+	//處理無效任務名稱
+	private void nullName(String name) {
+		if(name == null || name.trim().isEmpty()) {
+			System.out.println("任務名稱無效，請輸入正確任務名稱！");
+		}
 	}
 }

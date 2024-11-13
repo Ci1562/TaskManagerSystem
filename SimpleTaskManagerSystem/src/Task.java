@@ -10,12 +10,16 @@ public class Task {
 	
 	//建構子，初始化任務的屬性
 	public Task(String name, String description) {
-		if(name == null || name.trim().isEmpty()) {
-			throw new IllegalArgumentException("任務名稱不能為空，請提出有效任務名稱");
-		}
 		this.taskName = name;
 		this.taskDescription = description;
 		this.isCompleted = false;
+		this.time = LocalDateTime.now().format(formatter);
+		if(name == null || name.trim().isEmpty()) {
+			throw new IllegalArgumentException("任務名稱不能為空，請提出有效任務名稱");
+		}
+		else if(description == null || description.trim().isEmpty()) {
+			this.taskDescription = "無描述";
+		}
 	}
 	
 	//設置setter方法供修改任務屬性
@@ -44,7 +48,6 @@ public class Task {
 		return isCompleted;
 	}
 	public String getTime() {
-		time = LocalDateTime.now().format(formatter);
 		return time;
 	}
 	
