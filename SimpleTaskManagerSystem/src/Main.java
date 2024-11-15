@@ -34,7 +34,13 @@ public class Main {
 						System.out.println("\n"+taskManager.addTask(name, description));
 						break;
 					case 2:
-						System.out.println(taskManager.displayTasks());
+						String tasks =taskManager.displayTasks();
+						if(tasks.equals("目前沒有任務！")) {
+							System.out.println(tasks);
+							System.out.println("提示：請新增任務以便管理！");
+						}else {
+							System.out.println(tasks);
+						}
 						break;
 					case 3:
 						System.out.print("請輸入欲刪除的任務名稱：");
