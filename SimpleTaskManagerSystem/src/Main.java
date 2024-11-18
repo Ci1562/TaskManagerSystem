@@ -31,21 +31,15 @@ public class Main {
 						String name = scanner.nextLine();
 						System.out.print("請輸入任務描述：");
 						String description = scanner.nextLine();
-						System.out.println("\n"+taskManager.addTask(name, description));
+						taskManager.addTaskAsync(name, description);
 						break;
 					case 2:
-						String tasks =taskManager.displayTasks();
-						if(tasks.equals("目前沒有任務！")) {
-							System.out.println(tasks);
-							System.out.println("提示：請新增任務以便管理！");
-						}else {
-							System.out.println(tasks);
-						}
+						taskManager.displayTaskAsync();
 						break;
 					case 3:
 						System.out.print("請輸入欲刪除的任務名稱：");
 						name = scanner.nextLine();
-						System.out.println(taskManager.deleteTask(name));
+						taskManager.deleteTaskAsync(name);
 						break;
 					case 4:
 						System.out.print("請輸入已完成的任務名稱：");
@@ -69,6 +63,7 @@ public class Main {
 					case 0:
 						running = false;
 						System.out.println("程式已退出： ）");
+						taskManager.shutdown();
 						break;
 					default:
 						System.out.println("無效選項，請輸入數字作為有效選項");
