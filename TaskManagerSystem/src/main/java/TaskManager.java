@@ -5,8 +5,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.ReentrantLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TaskManager {
+	private static final Logger logger = LoggerFactory.getLogger(TaskManager.class);
+	
 	private final List<Task> tasks = new ArrayList<>();
 	private final ExecutorService executorService = Executors.newFixedThreadPool(3);
 	private final ReentrantLock lock = new ReentrantLock();
@@ -15,6 +19,7 @@ public class TaskManager {
 		Future<?> future = executorService.submit(()->{
 			lock.lock();
 			try {
+				logger.debug("嘗試新增任務：\n任務名稱：{}\n任務描述：{}\n", name, description);
 				addTask(name, description);
 			}
 			finally {
@@ -26,6 +31,8 @@ public class TaskManager {
 		}
 		catch(Exception e) {
 			System.out.println("任務執行失敗：" + e.getMessage());
+			logger.error("新增任務時發生異常：\n{}\n", e.getMessage(), e);
+
 		}
 	}
 	//新增任務
@@ -35,9 +42,11 @@ public class TaskManager {
 			Task task = new Task(name, description);
 			tasks.add(task);
 			task.getTime();
+			logger.info("新增任務成功：\n{}\n", task);
 			System.out.println("成功添加任務：\n" + task + "\n");
 		}
 		catch(IllegalArgumentException e){
+			logger.warn("新增任務失敗，原因：\n{}\n", e.getMessage());			
 			System.out.println("添加任務失敗：\n" + e.getMessage() + "\n");
 		}
 	}
@@ -57,6 +66,7 @@ public class TaskManager {
 		}
 		catch(Exception e) {
 			System.out.println("任務執行失敗：" + e.getMessage());
+			logger.error("任務執行時發生異常：\n{}\n", e.getMessage(), e);
 		}
 	}
 	
@@ -81,6 +91,7 @@ public class TaskManager {
 		Future<?> future = executorService.submit(()->{
 			lock.lock();
 			try {
+				logger.debug("嘗試刪除{}任務\n", name);
 				deleteTask(name);
 			}
 			finally {
@@ -91,6 +102,7 @@ public class TaskManager {
 			future.get();
 		}
 		catch(Exception e) {
+			logger.error("刪除任務時發生異常：\n{}\n", e.getMessage(), e);
 			System.out.println("任務執行失敗：" + e.getMessage());
 		}
 	}
@@ -99,10 +111,12 @@ public class TaskManager {
 	public void deleteTask(String name){
 		Task task = findTaskByName(name);
 		if(task == null) {
+			logger.warn("刪除任務失敗，未找到{}任務\n", name);
 			System.out.println(String.format("未找到任務%s\n", name));
 		}
 		else{
 			tasks.remove(task);
+			logger.info("成功刪除{}任務\n", name);
 			System.out.println(String.format("已刪除任務%s\n尚餘%d個任務未完成！\n", name, tasks.size()));
 		}
 	}
@@ -111,6 +125,7 @@ public class TaskManager {
 	public String markTaskAsCompleted(String name) {
 		Task task = findTaskByName(name);
 		if(task == null) {
+			logger.warn("標記任務完成失敗，未找到{}任務\n", name);
 			return String.format("未找到任務%s\n", name);
 		}
 		task.complete();
@@ -121,6 +136,7 @@ public class TaskManager {
 	public String editTaskDescription(String name, String description) {
 		Task task = findTaskByName(name);
 		if(task == null) {
+			logger.warn("修改任務描述失敗，未找到{}任務\n", name);
 			return String.format("未找到任務%s\n", name);
 		}
 		task.setTaskDescription(description);
@@ -133,12 +149,14 @@ public class TaskManager {
 			nullName(updateName);
 			Task task = findTaskByName(name);
 			if (task == null) {
+				logger.warn("更新任務名稱，未找到{}任務\n", name);
 	            return String.format("未找到任務%s\n", name);
 	        }
 			task.setTaskName(updateName);
 			return String.format("已修改任務名稱為：%s\n", updateName);
 		}
 		catch(IllegalArgumentException e) {
+			logger.error("更新任務時發生異常：\n{}\n", e.getMessage(), e);
 			return String.format("更新任務名稱失敗：\n%s\n", e.getMessage());
 		}	
 	}
@@ -169,6 +187,7 @@ public class TaskManager {
 	            executorService.shutdownNow();
 	        }
 	    } catch (InterruptedException e) {
+			logger.error("等待執行緒池關閉時發生異常：\n{}\n", e.getMessage(), e);
 	        System.out.println("等待執行緒池關閉時出現錯誤：" + e.getMessage());
 	        executorService.shutdownNow();
 	    }

@@ -1,14 +1,18 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
+	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 	public static void main(String[] args) {
 		TaskManager taskManager = new TaskManager();
 		Scanner scanner = new Scanner(System.in);
 		boolean running = true;
 		String delimiter = "**********";
 		String updateName;
-		
+		//主程式的日誌測試
+		logger.info("Main class INFO message");
 		do{
 			try {
 				System.out.println(delimiter + "\n請選擇您的操作：");
@@ -62,6 +66,7 @@ public class Main {
 						break;
 					case 0:
 						running = false;
+						logger.info("程式正常退出");
 						System.out.println("程式已退出： ）");
 						taskManager.shutdown();
 						break;
@@ -72,8 +77,8 @@ public class Main {
 					System.out.println("輸入格式錯誤，請輸入數字作為選項！");
 					scanner.nextLine();
 				}
-			}while(running);
-
+			}while(running);			
 		scanner.close();
+
 	}
 }
