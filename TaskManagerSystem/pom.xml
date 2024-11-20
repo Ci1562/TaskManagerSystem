@@ -5,6 +5,7 @@
   <groupId>com.example.TaskManagerSystem</groupId>
   <artifactId>TaskManagerSystem</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
   <dependencies>
     <!-- SLF4J API -->
     <dependency>
