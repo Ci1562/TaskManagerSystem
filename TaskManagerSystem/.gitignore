@@ -1,0 +1,14 @@
+# 忽略目標資料夾和編譯檔案
+/target/
+*.class
+
+# 忽略 IDE 設定檔
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# 忽略系統檔案
+.DS_Store
+Thumbs.db
