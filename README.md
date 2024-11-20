@@ -29,6 +29,18 @@ TaskManagerSystem/
 
 ---
 
+### 🎉 **如何執行**
+1. 編譯程式：
+   ```bash
+   mvn compile
+   ```
+2. 執行程式：
+   ```bash
+   mvn exec:java -Dexec.mainClass="Main"
+   ```
+
+---
+
 ## 🚀 功能特色
 1. **任務管理功能：**
    - 新增、刪除、編輯、完成任務
@@ -49,6 +61,9 @@ TaskManagerSystem/
 - 學習如何使用 Java 的 `Thread` 和 `Runnable` 接口來模擬並行處理。
 - 解決多執行緒環境中的資源共享問題。
 
-### **3. Git 與 GitHub 管理**
+#### 3. **日誌系統**
+- 引入 SLF4J 與 Logback，實現了多層次日誌記錄，並嘗試使用檔案滾動策略。
+
+### **4. Git 與 GitHub 管理**
 - 清理了專案中的多餘檔案，重新初始化 Git 儲存庫，並學會了如何覆蓋遠端歷史紀錄。
 
